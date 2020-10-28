@@ -262,14 +262,15 @@ const ClientBase = (() => {
 
     const getBasicUpgradeInfo = () => {
         const upgradeable_landing_companies = State.getResponse('authorize.upgradeable_landing_companies');
-        const landing_company = State.getResponse('landing_company');
+        const landing_company_obj = State.getResponse('landing_company');
 
         let can_open_multi = false;
         let can_upgrade_to = [];
         let type;
         if ((upgradeable_landing_companies || []).length) {
             const current_landing_company = get('landing_company_shortcode');
-            can_open_multi = upgradeable_landing_companies.indexOf(current_landing_company) !== -1 && (landing_company && landing_company.legal_allowed_currencies);
+            can_open_multi = upgradeable_landing_companies.indexOf(current_landing_company) !== -1 &&
+                             (landing_company_obj && landing_company_obj.legal_allowed_currencies);
 
             // only show upgrade message to landing companies other than current
             const canUpgrade = (...landing_companies) => {
