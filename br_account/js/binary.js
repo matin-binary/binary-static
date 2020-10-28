@@ -558,6 +558,8 @@ var ClientBase = function () {
         var type = void 0;
         if ((upgradeable_landing_companies || []).length) {
             var current_landing_company = get('landing_company_shortcode');
+            // create multiple accounts only available for landing companies with legal_allowed_currencies
+            // changes duo to putting clients risiding in Rwanada inside unwelcome logins list
             can_open_multi = upgradeable_landing_companies.indexOf(current_landing_company) !== -1 && landing_company_obj && landing_company_obj.legal_allowed_currencies;
 
             // only show upgrade message to landing companies other than current
