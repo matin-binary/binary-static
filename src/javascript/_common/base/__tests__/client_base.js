@@ -171,7 +171,7 @@ describe('ClientBase', () => {
             expect(upgrade_info.can_upgrade).to.eq(false);
             expect(upgrade_info.can_upgrade_to.length).to.eq(0);
             expect(upgrade_info.type).to.eq(undefined);
-            expect(upgrade_info.can_open_multi).to.eq(true);
+            expect(upgrade_info.can_open_multi).to.eq(false);
         });
     });
 
