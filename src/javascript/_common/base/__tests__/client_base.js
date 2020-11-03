@@ -149,6 +149,7 @@ describe('ClientBase', () => {
         it('returns as expected for accounts that can upgrade to real', () => {
             ['svg', 'malta', 'iom'].forEach((lc) => {
                 State.set(['response', 'authorize', 'authorize', 'upgradeable_landing_companies'], [ lc ]);
+                State.set(['response', 'landing_company', 'landing_company', 'legal_allowed_currencies'], false);
                 const upgrade_info = Client.getBasicUpgradeInfo();
                 expect(upgrade_info.can_upgrade).to.eq(true);
                 expect(upgrade_info.can_upgrade_to).to.deep.equal([lc]);
@@ -158,6 +159,7 @@ describe('ClientBase', () => {
         });
         it('returns as expected for accounts that can upgrade to financial', () => {
             State.set(['response', 'authorize', 'authorize', 'upgradeable_landing_companies'], [ 'maltainvest' ]);
+            State.set(['response', 'landing_company', 'landing_company', 'legal_allowed_currencies'], false);
             const upgrade_info = Client.getBasicUpgradeInfo();
             expect(upgrade_info.can_upgrade).to.eq(true);
             expect(upgrade_info.can_upgrade_to).to.deep.equal(['maltainvest']);
@@ -166,12 +168,23 @@ describe('ClientBase', () => {
         });
         it('returns as expected for multi account opening', () => {
             State.set(['response', 'authorize', 'authorize', 'upgradeable_landing_companies'], [ 'svg' ]);
+            State.set(['response', 'landing_company', 'landing_company', 'legal_allowed_currencies'], true);
             Client.set('landing_company_shortcode', 'svg');
             const upgrade_info = Client.getBasicUpgradeInfo();
             expect(upgrade_info.can_upgrade).to.eq(false);
             expect(upgrade_info.can_upgrade_to.length).to.eq(0);
             expect(upgrade_info.type).to.eq(undefined);
-            expect(upgrade_info.can_open_multi).to.eq(undefined);
+            expect(upgrade_info.can_open_multi).to.eq(true);
+        });
+        it('returns as expected for multi account opening without legal currencies', () => {
+            State.set(['response', 'authorize', 'authorize', 'upgradeable_landing_companies'], [ 'svg' ]);
+            State.set(['response', 'landing_company', 'landing_company', 'legal_allowed_currencies'], false);
+            Client.set('landing_company_shortcode', 'svg');
+            const upgrade_info = Client.getBasicUpgradeInfo();
+            expect(upgrade_info.can_upgrade).to.eq(false);
+            expect(upgrade_info.can_upgrade_to.length).to.eq(0);
+            expect(upgrade_info.type).to.eq(undefined);
+            expect(upgrade_info.can_open_multi).to.eq(false);
         });
     });
 
