@@ -149,7 +149,7 @@ describe('ClientBase', () => {
         it('returns as expected for accounts that can upgrade to real', () => {
             ['svg', 'malta', 'iom'].forEach((lc) => {
                 State.set(['response', 'authorize', 'authorize', 'upgradeable_landing_companies'], [ lc ]);
-                State.set(['response', 'landing_company', 'landing_company', 'legal_allowed_currencies'], false);
+                State.set(['response', 'landing_company', 'landing_company', 'legal_allowed_currencies'], ['USD']);
                 const upgrade_info = Client.getBasicUpgradeInfo();
                 expect(upgrade_info.can_upgrade).to.eq(true);
                 expect(upgrade_info.can_upgrade_to).to.deep.equal([lc]);
@@ -159,7 +159,7 @@ describe('ClientBase', () => {
         });
         it('returns as expected for accounts that can upgrade to financial', () => {
             State.set(['response', 'authorize', 'authorize', 'upgradeable_landing_companies'], [ 'maltainvest' ]);
-            State.set(['response', 'landing_company', 'landing_company', 'legal_allowed_currencies'], false);
+            State.set(['response', 'landing_company', 'landing_company', 'legal_allowed_currencies'], ['USD']);
             const upgrade_info = Client.getBasicUpgradeInfo();
             expect(upgrade_info.can_upgrade).to.eq(true);
             expect(upgrade_info.can_upgrade_to).to.deep.equal(['maltainvest']);
@@ -168,7 +168,7 @@ describe('ClientBase', () => {
         });
         it('returns as expected for multi account opening', () => {
             State.set(['response', 'authorize', 'authorize', 'upgradeable_landing_companies'], [ 'svg' ]);
-            State.set(['response', 'landing_company', 'landing_company', 'legal_allowed_currencies'], true);
+            State.set(['response', 'landing_company', 'landing_company', 'legal_allowed_currencies'], ['USD']);
             Client.set('landing_company_shortcode', 'svg');
             const upgrade_info = Client.getBasicUpgradeInfo();
             expect(upgrade_info.can_upgrade).to.eq(false);
