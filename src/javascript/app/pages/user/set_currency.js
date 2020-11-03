@@ -25,7 +25,7 @@ const SetCurrency = (() => {
         const el = is_new_account ? 'show' : 'hide';
         $(`#${el}_new_account`).setVisibility(1);
 
-        const landing_company   = (await BinarySocket.wait('landing_company')).landing_company;
+        const landing_company = (await BinarySocket.wait('landing_company')).landing_company;
         const { can_upgrade, type } = Client.getUpgradeInfo();
         $('#upgrade_to_mf').setVisibility(can_upgrade && type === 'financial');
 
