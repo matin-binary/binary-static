@@ -558,9 +558,12 @@ var ClientBase = function () {
         var type = void 0;
         if ((upgradeable_landing_companies || []).length) {
             var current_landing_company = get('landing_company_shortcode');
+            var allowed_currencies = [];
+            if (current_loginid) {
+                allowed_currencies = getLandingCompanyValue(current_loginid, landing_company_obj, 'legal_allowed_currencies');
+            }
             // create multiple accounts only available for landing companies with legal_allowed_currencies
-            // changes duo to putting clients risiding in Rwanada inside unwelcome logins list
-            can_open_multi = upgradeable_landing_companies.indexOf(current_landing_company) !== -1 && landing_company_obj && landing_company_obj.legal_allowed_currencies;
+            can_open_multi = !!(upgradeable_landing_companies.indexOf(current_landing_company) !== -1 && allowed_currencies && allowed_currencies.length);
 
             // only show upgrade message to landing companies other than current
             var canUpgrade = function canUpgrade() {
@@ -15883,7 +15886,7 @@ var Cashier = function () {
     var onLoad = function onLoad() {
         if (Client.isLoggedIn()) {
             BinarySocket.send({ statement: 1, limit: 1 });
-            BinarySocket.wait('authorize', 'mt5_login_list', 'statement', 'get_account_status').then(function () {
+            BinarySocket.wait('authorize', 'mt5_login_list', 'statement', 'get_account_status', 'landing_company').then(function () {
                 checkStatusIsLocked(State.getResponse('get_account_status'));
                 var residence = Client.get('residence');
                 var currency = Client.get('currency');
@@ -34683,9 +34686,8 @@ var RealAccOpening = function () {
 
     var onLoad = function onLoad() {
         if (Client.get('residence')) {
-            if (AccountOpening.redirectAccount()) return;
-
             BinarySocket.wait('get_settings', 'landing_company', 'get_account_status').then(function () {
+                if (AccountOpening.redirectAccount()) return;
                 var is_unwelcome_uk = State.getResponse('get_account_status.status').some(function (status) {
                     return status === 'unwelcome';
                 }) && /gb/.test(Client.get('residence'));
@@ -35411,7 +35413,7 @@ var SetCurrency = function () {
 
     var onLoad = function () {
         var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(fncOnConfirm) {
-            var el, _Client$getUpgradeInf, can_upgrade, type, landing_company, payout_currencies, $currency_list, $error, currencies, action_map;
+            var el, landing_company, _Client$getUpgradeInf, can_upgrade, type, payout_currencies, $currency_list, $error, currencies, action_map;
 
             return regeneratorRuntime.wrap(function _callee$(_context) {
                 while (1) {
@@ -35424,15 +35426,15 @@ var SetCurrency = function () {
 
                             $('#' + el + '_new_account').setVisibility(1);
 
+                            _context.next = 7;
+                            return BinarySocket.wait('landing_company');
+
+                        case 7:
+                            landing_company = _context.sent.landing_company;
                             _Client$getUpgradeInf = Client.getUpgradeInfo(), can_upgrade = _Client$getUpgradeInf.can_upgrade, type = _Client$getUpgradeInf.type;
 
                             $('#upgrade_to_mf').setVisibility(can_upgrade && type === 'financial');
 
-                            _context.next = 9;
-                            return BinarySocket.wait('landing_company');
-
-                        case 9:
-                            landing_company = _context.sent.landing_company;
                             _context.next = 12;
                             return BinarySocket.wait('payout_currencies');
 
