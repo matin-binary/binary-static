@@ -269,9 +269,13 @@ const ClientBase = (() => {
         let type;
         if ((upgradeable_landing_companies || []).length) {
             const current_landing_company = get('landing_company_shortcode');
+            let allowed_currencies = [];
+            if (current_loginid) {
+                allowed_currencies = getLandingCompanyValue(current_loginid, landing_company_obj, 'legal_allowed_currencies');
+            }
             // create multiple accounts only available for landing companies with legal_allowed_currencies
             can_open_multi = !!(upgradeable_landing_companies.indexOf(current_landing_company) !== -1 &&
-            (landing_company_obj && landing_company_obj.legal_allowed_currencies));
+            (allowed_currencies && allowed_currencies.length));
 
             // only show upgrade message to landing companies other than current
             const canUpgrade = (...landing_companies) => {

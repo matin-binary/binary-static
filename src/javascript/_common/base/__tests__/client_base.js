@@ -14,6 +14,8 @@ describe('ClientBase', () => {
     const loginid_financial = 'MF123';
 
     const landing_company = { landing_company: { financial_company: { name: 'Binary Investments (Europe) Ltd', shortcode: 'maltainvest' }, gaming_company: { name: 'Binary (Europe) Ltd', shortcode: 'malta' } }, msg_type: 'landing_company' };
+    const valid_landing_company =
+    { landing_company: { financial_company: { name: 'Binary Investments (Europe) Ltd', shortcode: 'maltainvest', legal_allowed_currencies: ['USD'] }, gaming_company: { name: 'Binary (Europe) Ltd', shortcode: 'malta', legal_allowed_currencies: ['USD'] } }, msg_type: 'landing_company' };
     const authorize       = { authorize: { upgradeable_landing_companies: [] }};
 
     describe('.validateLoginid()', () => {
@@ -148,6 +150,7 @@ describe('ClientBase', () => {
         });
         it('returns as expected for multi account opening without legal currencies', () => {
             State.set(['response', 'authorize', 'authorize', 'upgradeable_landing_companies'], [ 'svg' ]);
+            Client.set('loginid', loginid_real, loginid_real);
             Client.set('landing_company_shortcode', 'svg');
             const upgrade_info = Client.getBasicUpgradeInfo();
             expect(upgrade_info.can_upgrade).to.eq(false);
@@ -158,7 +161,8 @@ describe('ClientBase', () => {
         it('returns as expected for accounts that can upgrade to real', () => {
             ['malta', 'iom'].forEach((lc) => {
                 State.set(['response', 'authorize', 'authorize', 'upgradeable_landing_companies'], [ lc ]);
-                State.set(['response', 'landing_company', 'landing_company', 'legal_allowed_currencies'], ['USD']);
+                State.set(['response', 'landing_company'], valid_landing_company);
+                Client.set('loginid', loginid_real, loginid_real);
                 const upgrade_info = Client.getBasicUpgradeInfo();
                 expect(upgrade_info.can_upgrade).to.eq(true);
                 expect(upgrade_info.can_upgrade_to).to.deep.equal([lc]);
@@ -168,7 +172,8 @@ describe('ClientBase', () => {
         });
         it('returns as expected for accounts that can upgrade to financial', () => {
             State.set(['response', 'authorize', 'authorize', 'upgradeable_landing_companies'], [ 'maltainvest' ]);
-            State.set(['response', 'landing_company', 'landing_company', 'legal_allowed_currencies'], ['USD']);
+            State.set(['response', 'landing_company'], valid_landing_company);
+            Client.set('loginid', loginid_real, loginid_real);
             const upgrade_info = Client.getBasicUpgradeInfo();
             expect(upgrade_info.can_upgrade).to.eq(true);
             expect(upgrade_info.can_upgrade_to).to.deep.equal(['maltainvest']);
@@ -177,7 +182,8 @@ describe('ClientBase', () => {
         });
         it('returns as expected for multi account opening', () => {
             State.set(['response', 'authorize', 'authorize', 'upgradeable_landing_companies'], [ 'svg' ]);
-            State.set(['response', 'landing_company', 'landing_company', 'legal_allowed_currencies'], ['USD']);
+            State.set(['response', 'landing_company'], valid_landing_company);
+            Client.set('loginid', loginid_real, loginid_real);
             Client.set('landing_company_shortcode', 'svg');
             const upgrade_info = Client.getBasicUpgradeInfo();
             expect(upgrade_info.can_upgrade).to.eq(false);
