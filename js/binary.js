@@ -16090,6 +16090,7 @@ var Cashier = function () {
         new_el.href = href;
         if (isDefaultVirtualBalance()) {
             new_el.class = 'toggle button button-disabled';
+            new_el.href = '';
         }
         el_virtual_topup_info.innerText = localize('Reset the balance of your virtual account to [_1] anytime.', [Client.get('currency') + ' 10,000.00']);
         $a.replaceWith($('<a/>', new_el));
