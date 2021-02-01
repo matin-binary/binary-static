@@ -11,6 +11,7 @@ const getPropertyValue = require('../../../_common/utility').getPropertyValue;
 
 const Cashier = (() => {
     let href = '';
+    const default_virtual_balance = 10000;
 
     const showContent = () => {
         Client.activateByClientType();
@@ -61,16 +62,18 @@ const Cashier = (() => {
         resolve(getPropertyValue(offer_list_response, ['p2p_offer_list', 'list']).length);
     });
 
+    const isDefaultVirtualBalance = () => +Client.get('balance') === default_virtual_balance;
+
     const displayResetButton = () => {
         const el_virtual_topup_info = getElementById('virtual_topup_info');
         const top_up_id = '#VRT_topup_link';
         const $a        = $(top_up_id);
         if (!$a) return;
-        let new_el      = { class: 'toggle button', html: $a.html(), id: $a.attr('id') };
+        const new_el      = { class: 'toggle button', html: $a.html(), id: $a.attr('id') };
         href            = href || Url.urlFor('/cashier/top_up_virtualws');
         new_el.href     = href;
-        if (Client.get('balance') === 10000) {
-            new_el = { id: $a.attr('id'), class: 'toggle button button-disabled', html: $a.html() };
+        if (isDefaultVirtualBalance()) {
+            new_el.class = 'toggle button button-disabled';
         }
         el_virtual_topup_info.innerText = localize('Reset the balance of your virtual account to [_1] anytime.', [`${Client.get('currency')} 10,000.00`]);
         $a.replaceWith($('<a/>', new_el));
@@ -204,7 +207,7 @@ const Cashier = (() => {
 
     const onLoad = () => {
         const is_virtual = Client.get('is_virtual');
-        if (Client.get('balance') === 10000 && is_virtual) {
+        if (is_virtual && isDefaultVirtualBalance()) {
             getElementById('VRT_topup_link').classList.add('button-disabled');
         }
         if (Client.isLoggedIn()) {
