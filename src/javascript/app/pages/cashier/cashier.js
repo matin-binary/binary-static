@@ -66,9 +66,9 @@ const Cashier = (() => {
         const top_up_id = '#VRT_topup_link';
         const $a        = $(top_up_id);
         if (!$a) return;
-        let new_el          = { class: 'toggle button', html: $a.html(), id: $a.attr('id') };
-        href                = href || Url.urlFor('/cashier/top_up_virtualws');
-        new_el.href         = href;
+        let new_el      = { class: 'toggle button', html: $a.html(), id: $a.attr('id') };
+        href            = href || Url.urlFor('/cashier/top_up_virtualws');
+        new_el.href     = href;
         if (Client.get('balance') === 10000) {
             new_el = { id: $a.attr('id'), class: 'toggle button button-disabled', html: $a.html() };
         }
