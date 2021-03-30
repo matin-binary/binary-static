@@ -343,7 +343,7 @@ const MetaTraderConfig = (() => {
 
     const fields = {
         new_account: {
-            txt_main_pass    : { id: '#txt_main_pass',     request_field: 'mainPassword' },
+            trading_password : { id: '#trading_password',     request_field: 'mainPassword' },
             ddl_trade_server : { id: '#ddl_trade_server', is_radio: true },
             chk_tnc          : { id: '#chk_tnc' },
             additional_fields: acc_type => {
@@ -414,7 +414,7 @@ const MetaTraderConfig = (() => {
 
     const validations = () => ({
         new_account: [
-            { selector: fields.new_account.txt_main_pass.id,     validations: [['req', { hide_asterisk: true }], 'password', 'compare_to_email'] },
+            { selector: fields.new_account.trading_password.id,     validations: [['req', { hide_asterisk: false }], 'password', 'compare_to_email'] },
             { selector: fields.new_account.ddl_trade_server.id,  validations: [['req', { hide_asterisk: true }]] },
         ],
         password_change: [

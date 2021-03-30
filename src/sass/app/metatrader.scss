@@ -540,6 +540,10 @@
     height: 140px;
 }
 
+.required {
+    color: $COLOR_RED;
+}
+
 tbody#instruments > tr > td {
     width: 33%;
 }

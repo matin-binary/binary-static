@@ -292,21 +292,36 @@ const Metatrader = () => (
                                 </div>
                             </div>
                             <div id='view_3' className='gr-row invisible'>
-                                <div className='container gr-8 gr-12-m'>
-                                    <FormRow
-                                        autoComplete='new-password'
-                                        is_two_rows
-                                        has_password_meter
-                                        type='password'
-                                        id='txt_main_pass'
-                                        label={it.L('Main password')}
-                                        tooltip={it.L('Access your account with full trading permission.')}
-                                    />
-                                    <div id='view_3-buttons' className='gr-padding-10 center-text'>
+                                <div className='container gr-12'>
+                                    <p id='trading_password_new_user' className='notice-msg invisible'>
+                                        {it.L('Set a trading password. Use this to log in and trade on MT5 and Deriv X. ')}
+                                    </p>
+                                    <p id='trading_password_existing_user' className='notice-msg invisible'>
+                                        {it.L('Please enter your trading password to create an account. If you\'ve forgotten your password, click [_1]Reset password[_2]', '<strong>', '</strong>')}
+                                    </p>
+                                    <p className='center-text'>
+                                        <label htmlFor='trading_password' className='gr-gutter-right'>
+                                            {it.L('Trading password')}<span className='required_field_asterisk'>*</span>
+                                        </label>
+                                        <input
+                                            type='password'
+                                            name='trading_password'
+                                            id='trading_password'
+                                        />
+                                    </p>
+                                    <div id='view_3-buttons_existing_user' className='gr-padding-10 center-text'>
+                                        <a className='button button-secondary btn-back' href={it.url_for('user/security/change_passwordws')}>
+                                            <span>{it.L('Reset password')}</span>
+                                        </a>
+                                        <button className='button'  id='existing_user_btn_submit_new_account' type='submit' action='new_account'>
+                                            {it.L('Create')}
+                                        </button>
+                                    </div>
+                                    <div id='view_3-buttons_new_user' className='gr-padding-10 center-text'>
                                         <a className='button button-secondary btn-back' href='javascript:;'>
                                             <span>{it.L('Back')}</span>
                                         </a>
-                                        <button id='btn_submit_new_account' type='submit' action='new_account'>
+                                        <button className='button' id='new_user_btn_submit_new_account' type='submit' action='new_account'>
                                             {it.L('Create account')}
                                         </button>
                                     </div>

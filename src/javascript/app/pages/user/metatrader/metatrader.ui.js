@@ -598,15 +598,33 @@ const MetaTraderUI = (() => {
             trading_server.id === accounts_info[account].info.server
         );
 
+    const shouldSetTradingPassword = () => {
+        const { status } = State.getResponse('get_account_status');
+        if (Array.isArray(status)) {
+            status.includes('trading_password_required');
+        } else {
+            throw new Error('get_account_status is undefined');
+        }
+    };
+
     const displayStep = (step) => {
         const new_account_type = newAccountGetType();
         const is_demo = /demo/.test(new_account_type);
+        const should_set_trading_password = shouldSetTradingPassword();
         const is_synthetic = /gaming/.test(new_account_type);
 
         $form.find('#msg_form').remove();
         $form.find('#mv_new_account div[id^="view_"]').setVisibility(0);
         $form.find(`#view_${step}`).setVisibility(1);
         $form.find('#view_3').find('.error-msg, .days-to-crack').setVisibility(0);
+
+        // Show proper notice msg based on api flag
+        if (should_set_trading_password) {
+            $form.find('#view_3').find('#trading_password_new_user').setVisibility(1);
+        } else {
+            $form.find('#view_3').find('#trading_password_existing_user').setVisibility(1);
+        }
+
         $form.find(`.${is_demo ? 'real' : 'demo'}-only`).setVisibility(0);
 
         // we do not show step 2 (servers selection) to demo and non synthetic accouns
@@ -632,9 +650,12 @@ const MetaTraderUI = (() => {
             $view_2_button_container.setVisibility(1);
         } else if (step === 3) {
             $form.find('input').not(':input[type=radio]').val('');
-
-            const $view_3_button_container = $form.find('#view_3-buttons');
-
+            let $view_3_button_container;
+            if (should_set_trading_password) {
+                $view_3_button_container = $form.find('#view_3-buttons_new_user');
+            } else {
+                $view_3_button_container = $form.find('#view_3-buttons_existing_user');
+            }
             $('<p />', { id: 'msg_form', class: 'center-text gr-padding-10 error-msg no-margin invisible' }).prependTo($view_3_button_container);
             $view_3_button_container.setVisibility(1);
         } else if (step !== 1) {
@@ -725,9 +746,11 @@ const MetaTraderUI = (() => {
 
             // Disable/enable submit button based on whether any of the checkboxes is checked.
             if ($form.find('#ddl_trade_server input[checked]').length > 0) {
-                $form.find('#btn_submit_new_account').removeAttr('disabled');
+                $form.find('#new_user_btn_submit_new_account').removeAttr('disabled');
+                $form.find('#existing_user_btn_submit_new_account').removeAttr('disabled');
             } else {
-                $form.find('#btn_submit_new_account').attr('disabled', true);
+                $form.find('#new_user_btn_submit_new_account').attr('disabled', true);
+                $form.find('#existing_user_btn_submit_new_account').attr('disabled', true);
             }
         });
 
@@ -905,8 +928,25 @@ const MetaTraderUI = (() => {
         $('#mt_loading').remove();
     };
 
+    /**
+     * @param {string} action
+     * @returns {jQuery}
+     */
+    const  getActionButton = (action) => {
+        if (action === 'new_account') {
+            if (shouldSetTradingPassword()) {
+                return actions_info[action].$form.find('#new_user_btn_submit_new_account');
+            }
+            return actions_info[action].$form.find('#existing_user_btn_submit_new_account');
+
+        }
+        return actions_info[action].$form.find('button');
+
+    };
+
     const disableButton = (action) => {
-        const $btn = actions_info[action].$form.find('button');
+        const $btn = getActionButton(action);
+
         if ($btn.length && !$btn.find('.barspinner').length) {
             $btn.attr('disabled', 'disabled');
             const $btn_text = $('<span/>', { text: $btn.text(), class: 'invisible' });
@@ -915,8 +955,8 @@ const MetaTraderUI = (() => {
         }
     };
 
-    const enableButton = (action, response = {}) => {
-        const $btn = actions_info[action].$form.find('button');
+    const enableButton = (action, response) => {
+        const $btn = getActionButton(action);
         if ($btn.length && $btn.find('.barspinner').length) {
             $btn.removeAttr('disabled').html($btn.find('span').text());
         }
@@ -924,6 +964,18 @@ const MetaTraderUI = (() => {
             // after submit is done, reset token value
             resetManagePasswordTab(action, response);
         }
+        if (/new_account/.test(action)) {
+            resetNewAccountForm(response);
+        }
+    };
+
+    const resetNewAccountForm = (response) => {
+        $('#trading_password').val('').focus();
+        // if (response.error.code === 'PasswordReset') {
+        //
+        // } else if (response.error.code === 'PasswordError') {
+        //
+        // }
     };
 
     const resetManagePasswordTab = (action, response) => {
