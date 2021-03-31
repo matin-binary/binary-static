@@ -299,7 +299,7 @@ const Metatrader = () => (
                                     <p id='trading_password_existing_user' className='notice-msg invisible'>
                                         {it.L('Please enter your trading password to create an account. If you\'ve forgotten your password, click [_1]Reset password[_2]', '<strong>', '</strong>')}
                                     </p>
-                                    <p className='center-text'>
+                                    <div className='center-text'>
                                         <label htmlFor='trading_password' className='gr-gutter-right'>
                                             {it.L('Trading password')}<span className='required_field_asterisk'>*</span>
                                         </label>
@@ -308,7 +308,7 @@ const Metatrader = () => (
                                             name='trading_password'
                                             id='trading_password'
                                         />
-                                    </p>
+                                    </div>
                                     <div id='view_3-buttons_existing_user' className='gr-padding-10 center-text'>
                                         <a className='button button-secondary btn-back' href={it.url_for('user/security/change_passwordws')}>
                                             <span>{it.L('Reset password')}</span>
