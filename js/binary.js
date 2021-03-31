@@ -15969,7 +15969,6 @@ var getPropertyValue = __webpack_require__(/*! ../../../_common/utility */ "./sr
 
 var Cashier = function () {
     var href = '';
-    var default_virtual_balance = 10000;
 
     var showContent = function showContent() {
         Client.activateByClientType();
@@ -16076,10 +16075,6 @@ var Cashier = function () {
         }());
     };
 
-    var isDefaultVirtualBalance = function isDefaultVirtualBalance() {
-        return +Client.get('balance') === default_virtual_balance;
-    };
-
     var displayResetButton = function displayResetButton() {
         var el_virtual_topup_info = getElementById('virtual_topup_info');
         var top_up_id = '#VRT_topup_link';
@@ -16088,10 +16083,6 @@ var Cashier = function () {
         var new_el = { class: 'toggle button', html: $a.html(), id: $a.attr('id') };
         href = href || Url.urlFor('/cashier/top_up_virtualws');
         new_el.href = href;
-        if (isDefaultVirtualBalance()) {
-            new_el.class = 'toggle button button-disabled';
-            new_el.href = '';
-        }
         el_virtual_topup_info.innerText = localize('Reset the balance of your virtual account to [_1] anytime.', [Client.get('currency') + ' 10,000.00']);
         $a.replaceWith($('<a/>', new_el));
         $(top_up_id).parent().setVisibility(1);
@@ -16218,17 +16209,13 @@ var Cashier = function () {
     };
 
     var onLoad = function onLoad() {
-        var is_virtual = Client.get('is_virtual');
-        if (is_virtual && isDefaultVirtualBalance()) {
-            getElementById('VRT_topup_link').classList.add('button-disabled');
-        }
         if (Client.isLoggedIn()) {
             BinarySocket.send({ statement: 1, limit: 1 });
             BinarySocket.wait('authorize', 'mt5_login_list', 'statement', 'get_account_status', 'landing_company').then(function () {
                 checkStatusIsLocked(State.getResponse('get_account_status'));
                 var residence = Client.get('residence');
                 var currency = Client.get('currency');
-                if (is_virtual) {
+                if (Client.get('is_virtual')) {
                     displayResetButton();
                 } else if (currency) {
                     var is_p2p_allowed_currency = currency === 'USD';
@@ -32537,7 +32524,9 @@ module.exports = TopUpVirtualPopup;
 "use strict";
 
 
+var Client = __webpack_require__(/*! ../../../../base/client */ "./src/javascript/app/base/client.js");
 var BinarySocket = __webpack_require__(/*! ../../../../base/socket */ "./src/javascript/app/base/socket.js");
+var formatMoney = __webpack_require__(/*! ../../../../common/currency */ "./src/javascript/app/common/currency.js").formatMoney;
 var localize = __webpack_require__(/*! ../../../../../_common/localize */ "./src/javascript/_common/localize.js").localize;
 
 var TopUpVirtual = function () {
@@ -32556,7 +32545,7 @@ var TopUpVirtual = function () {
             if (response.error) {
                 showMessage(response.error.message, false);
             } else {
-                showMessage(localize('Your virtual balance has been reset.'), true);
+                showMessage(localize('[_1] has been credited into your Virtual Account: [_2].', [formatMoney(response.topup_virtual.currency, response.topup_virtual.amount), Client.get('loginid')]), true);
             }
             $('.barspinner').setVisibility(0);
         });
