@@ -452,6 +452,7 @@ const MetaTraderUI = (() => {
                 } else if (!Validation.validEmailToken(token)) {
                     $form.find('#frm_verify_password_reset').find('#token_error').setVisibility(1).end().setVisibility(1);
                 } else {
+                    $form.find('#frm_password_change').setVisibility(0);
                     $form.find('#frm_password_reset').setVisibility(1);
                 }
             }

@@ -412,19 +412,10 @@ const Metatrader = () => (
                                     </div>
                                 </form>
                                 <form className='invisible' id='frm_password_reset'>
-                                    <FormRow
-                                        is_two_rows
-                                        type='radio'
-                                        id='ddl_reset_password_type'
-                                        className='password-type'
-                                        label={it.L('Password type')}
-                                        options={[
-                                            { value: 'main', label: it.L('Main'), data_balloon_text: it.L('Access your account with full trading permission.') },
-                                            { value: 'investor', label: it.L('Investor'), data_balloon_text: it.L('Share access to your account without any permission to trade.') },
-                                        ]}
-                                        default_option='main'
-                                    />
-                                    <FormRow autoComplete='new-password' has_password_meter is_two_rows type='password' id='txt_reset_new_password' label={it.L('New MT5 password')} />
+                                    <div className='center-text hint gr-padding-20 gr-parent'>
+                                        <h3 className='secondary-color'>{it.L('Change investor password')}</h3>
+                                    </div>
+                                    <FormRow autoComplete='new-password' has_password_meter is_two_rows type='password' id='txt_reset_new_password' label={it.L('Investor password')} />
                                     <SubmitButton
                                         no_wrapper
                                         type='submit'

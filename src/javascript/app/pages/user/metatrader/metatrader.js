@@ -243,7 +243,6 @@ const MetaTrader = (() => {
             req[`mt5_${action}`] = 1;
         }
         if (deprecated_mt5_requests.includes(action)) {
-            console.log('action:', action);
             req[`trading_platform_investor_${action}`] = 1;
         }
 
