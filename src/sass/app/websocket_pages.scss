@@ -406,3 +406,56 @@
         }
     }
 }
+
+#frm_change_password, #frm_trading_password {
+    .gr-row {
+        .app-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+
+            span {
+                font-size: $FONT_SIZE_S;
+                padding: 10px;
+                background-color: $COLOR_LIGHT_GRAY;
+                display: inline-block;
+                border-radius: 4px;
+            }
+        }
+    }
+    .row-inner {
+        .social-identifier {
+            gap: 12px;
+
+            > span {
+                font-size: $FONT_SIZE_S;
+            }
+        }
+    }
+    .frm-btn-container > a {
+        margin-right: 16px;
+    }
+}
+
+#unlink_confirmation_dialog, #sent_email_dialog {
+    #dialog_content {
+        max-width: 469px;
+        padding: 32px 12px 22px;
+        margin: auto 16px;
+    }
+    #dialog_title {
+        line-height: 42px;
+    }
+}
+
+#sent_email_success_dialog {
+    #dialog_content {
+        max-width: 469px;
+        padding: 32px 12px 22px;
+        margin: auto 16px;
+    }
+    #dialog_title {
+        text-align: center;
+        line-height: 42px;
+    }
+}
