@@ -23,11 +23,6 @@ const TradingResetPassword = () => (
                             id='new_password'
                             label={it.L('New Trading password')}
                         />
-                        <div className='gr-8 gr-push-4 gr-12-m gr-push-0-m center-text-m'>
-                            <p className='hint password--hint'>
-                                {it.L('Strong passwords contain at least 8 characters, combine uppercase and lowercase letters, numbers, and symbols.')}
-                            </p>
-                        </div>
                         <SubmitButton type='submit' no_error text={it.L('Confirm password')} />
                     </Fieldset>
                 </form>

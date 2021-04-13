@@ -426,6 +426,7 @@
     .row-inner {
         .social-identifier {
             gap: 12px;
+            padding: 20px 0;
 
             > span {
                 font-size: $FONT_SIZE_S;
@@ -441,7 +442,6 @@
     #dialog_content {
         max-width: 469px;
         padding: 32px 12px 22px;
-        margin: auto 16px;
     }
     #dialog_title {
         line-height: 42px;
@@ -452,10 +452,17 @@
     #dialog_content {
         max-width: 469px;
         padding: 32px 12px 22px;
-        margin: auto 16px;
     }
     #dialog_title {
         text-align: center;
         line-height: 42px;
+    }
+}
+
+@media (min-width: 320px) and (max-width: 767px) {
+    #unlink_confirmation_dialog, #sent_email_dialog, #sent_email_success_dialog {
+        #dialog_content {
+            margin: auto 16px;
+        }
     }
 }

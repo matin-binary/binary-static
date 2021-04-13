@@ -122,7 +122,7 @@ const ChangePassword = (() => {
                 localized_message: localize('You will need to set a password to complete the process.'),
                 localized_title  : localize('Are you sure you want to unlink from [_1]?', social_signup_identifier),
                 cancel_text      : localize('Cancel'),
-                ok_text          : localize('Unlink from [_1]', social_signup_identifier),
+                ok_text          : localize('Unlink'),
                 onConfirm        : () => onSentEmail('unlink'),
             });
         });

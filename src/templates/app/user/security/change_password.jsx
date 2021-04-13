@@ -68,7 +68,7 @@ const ChangePassword = () => (
                                 </div>
                             </div>
                             <div id='social_signup_container' className='row-inner gr-7 gr-12-p gr-12-m align-self-center invisible'>
-                                <div id='social-identifier' className='social-identifier flex center-align flex-row'>
+                                <div id='social-identifier' className='social-identifier gr-padding-10 flex center-align flex-row'>
                                     <img id='ic_linked_social_identifier' />
                                     <span id='linked_social_identifier' />
                                     <a
