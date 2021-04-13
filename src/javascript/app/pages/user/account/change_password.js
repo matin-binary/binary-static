@@ -191,6 +191,8 @@ const ChangePassword = (() => {
         } else {
             $msg_success_trading.text(localize('Your trading password has been set. Please use this to log in to MetaTrader 5 and Deriv X.'));
             $msg_success_trading_container.setVisibility(1);
+            $trading_password_container.setVisibility(1);
+            $set_trading_password_container.setVisibility(0);
             $(trading_form_id).trigger('reset');
             setTimeout(() => {
                 $msg_success_trading.setVisibility(0);
