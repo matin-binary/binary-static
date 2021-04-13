@@ -3,13 +3,23 @@ const BinarySocket     = require('../base/socket');
 const getHashValue     = require('../../_common/url').getHashValue;
 const isEmptyObject    = require('../../_common/utility').isEmptyObject;
 const showLoadingImage = require('../../_common/utility').showLoadingImage;
+const getElementById   = require('../../_common/common_functions').getElementById;
 
 const FormManager = (() => {
     const forms = {};
 
-    const initForm = (form_selector, fields, needs_token) => {
+    const initForm = (form_selector, fields, needs_token, should_set_trading_password) => {
         const $form = $(`${form_selector}:visible`);
-        const $btn  = $form.find('button[type="submit"]');
+        let $btn;
+        if (form_selector === '#frm_trading_password') {
+            if (should_set_trading_password) {
+                $btn = $form.find(getElementById('set_trading_btn'));
+            } else {
+                $btn = $form.find(getElementById('change_trading_pw_btn'));
+            }
+        } else {
+            $btn  = $form.find('button[type="submit"]');
+        }
         if ($form.length) {
             forms[form_selector] = {
                 $btn_submit: $btn,
