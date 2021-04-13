@@ -3,7 +3,7 @@ const BinarySocket     = require('../base/socket');
 const getHashValue     = require('../../_common/url').getHashValue;
 const isEmptyObject    = require('../../_common/utility').isEmptyObject;
 const showLoadingImage = require('../../_common/utility').showLoadingImage;
-const getElementById     = require('../../_common/common_functions').getElementById;
+const getElementById   = require('../../_common/common_functions').getElementById;
 
 const FormManager = (() => {
     const forms = {};

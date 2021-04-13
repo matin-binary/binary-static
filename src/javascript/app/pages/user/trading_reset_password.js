@@ -1,14 +1,14 @@
 const FormManager = require('../../common/form_manager');
-const BinaryPjax              = require('../../base/binary_pjax');
-const Dialog             = require('../../common/attach_dom/dialog');
+const BinaryPjax  = require('../../base/binary_pjax');
+const Dialog      = require('../../common/attach_dom/dialog');
 const localize    = require('../../../_common/localize').localize;
-const Url                     = require('../../../_common/url');
+const Url         = require('../../../_common/url');
 
 const TradingResetPassword = (() => {
     const responseHandler = (response) => {
         $('#container_trading_reset_password').setVisibility(0);
         if (response.error) {
-            const $form_error          = $('#form_error');
+            const $form_error = $('#form_error');
             $('#msg_reset_password').setVisibility(0);
             const err_msg = response.error.message;
             $form_error.find('a').setVisibility(0);

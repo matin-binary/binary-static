@@ -1,11 +1,11 @@
-const BinarySocket  = require('../../base/socket');
-const FormManager   = require('../../common/form_manager');
-const Login         = require('../../../_common/base/login');
-const Dialog             = require('../../common/attach_dom/dialog');
-const toTitleCase        = require('../../../_common/string_util').toTitleCase;
-const localize      = require('../../../_common/localize').localize;
-const State              = require('../../../_common/storage').State;
-const getElementById     = require('../../../_common/common_functions').getElementById;
+const BinarySocket   = require('../../base/socket');
+const FormManager    = require('../../common/form_manager');
+const Login          = require('../../../_common/base/login');
+const Dialog         = require('../../common/attach_dom/dialog');
+const toTitleCase    = require('../../../_common/string_util').toTitleCase;
+const localize       = require('../../../_common/localize').localize;
+const State          = require('../../../_common/storage').State;
+const getElementById = require('../../../_common/common_functions').getElementById;
 
 const ResetPassword = (() => {
     let form_reset_pw_id,

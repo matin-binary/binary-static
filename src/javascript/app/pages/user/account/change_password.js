@@ -1,13 +1,13 @@
-const Client             = require('../../../base/client');
-const BinarySocket       = require('../../../base/socket');
-const FormManager        = require('../../../common/form_manager');
-const Dialog             = require('../../../common/attach_dom/dialog');
-const toTitleCase        = require('../../../../_common/string_util').toTitleCase;
-const localize           = require('../../../../_common/localize').localize;
-const State              = require('../../../../_common/storage').State;
-const getElementById     = require('../../../../_common/common_functions').getElementById;
-const Url                = require('../../../../_common/url');
-const Password         = require('../../../../_common/check_password');
+const Client         = require('../../../base/client');
+const BinarySocket   = require('../../../base/socket');
+const FormManager    = require('../../../common/form_manager');
+const Dialog         = require('../../../common/attach_dom/dialog');
+const toTitleCase    = require('../../../../_common/string_util').toTitleCase;
+const localize       = require('../../../../_common/localize').localize;
+const State          = require('../../../../_common/storage').State;
+const getElementById = require('../../../../_common/common_functions').getElementById;
+const Url            = require('../../../../_common/url');
+const Password       = require('../../../../_common/check_password');
 
 const ChangePassword = (() => {
     let $change_password_loading,
@@ -167,7 +167,11 @@ const ChangePassword = (() => {
 
     const changePasswordHandler = (response) => {
         if ('error' in response) {
-            $('#frm_change_binary_password_error').text(response.error.message).setVisibility(1);
+            const frm_change_binary_password_error_id = '#frm_change_binary_password_error';
+            $(frm_change_binary_password_error_id).text(response.error.message).setVisibility(1);
+            setTimeout(() => {
+                $(frm_change_binary_password_error_id).setVisibility(0);
+            }, 5000);
         } else {
             $msg_success.text(localize('Your binary password has been changed. Please log in again.'));
             $msg_success_container.setVisibility(1);
@@ -179,7 +183,11 @@ const ChangePassword = (() => {
 
     const setTradingPwHandler = (response) => {
         if ('error' in response) {
-            $('#frm_set_trading_password_error').text(response.error.message).setVisibility(1);
+            const frm_set_trading_password_error_id = '#frm_set_trading_password_error';
+            $(frm_set_trading_password_error_id).text(response.error.message).setVisibility(1);
+            setTimeout(() => {
+                $(frm_set_trading_password_error_id).setVisibility(0);
+            }, 5000);
         } else {
             $msg_success_trading.text(localize('Your trading password has been set. Please use this to log in to MetaTrader 5 and Deriv X.'));
             $msg_success_trading_container.setVisibility(1);
@@ -193,7 +201,11 @@ const ChangePassword = (() => {
 
     const tradingPwHandler = (response) => {
         if ('error' in response) {
-            $('#frm_change_trading_password_error').text(response.error.message).setVisibility(1);
+            const frm_change_trading_password_error_id = '#frm_change_trading_password_error';
+            $(frm_change_trading_password_error_id).text(response.error.message).setVisibility(1);
+            setTimeout(() => {
+                $(frm_change_trading_password_error_id).setVisibility(0);
+            }, 5000);
         } else {
             $msg_success_trading.text(localize('Your trading password has been changed. Please use this to log in to MetaTrader 5 and Deriv X.'));
             $msg_success_trading_container.setVisibility(1);
