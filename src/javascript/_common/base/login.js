@@ -1,4 +1,5 @@
 const Cookies             = require('js-cookie');
+const Client              = require('./client_base');
 const getLanguage         = require('../language').get;
 const isMobile            = require('../os_detect').isMobile;
 const isStorageSupported  = require('../storage').isStorageSupported;
@@ -10,7 +11,7 @@ const getAppId            = require('../../config').getAppId;
 
 const Login = (() => {
     const redirectToLogin = () => {
-        if (!isLoginPages() && isStorageSupported(sessionStorage)) {
+        if (!Client.isLoggedIn() && !isLoginPages() && isStorageSupported(sessionStorage)) {
             sessionStorage.setItem('redirect_url', window.location.href);
             window.location.href = loginUrl();
         }

@@ -1,11 +1,11 @@
 const BinarySocket   = require('../../base/socket');
+const Dialog         = require('../../common/attach_dom/dialog');
 const FormManager    = require('../../common/form_manager');
 const Login          = require('../../../_common/base/login');
-const Dialog         = require('../../common/attach_dom/dialog');
-const toTitleCase    = require('../../../_common/string_util').toTitleCase;
+const getElementById = require('../../../_common/common_functions').getElementById;
 const localize       = require('../../../_common/localize').localize;
 const State          = require('../../../_common/storage').State;
-const getElementById = require('../../../_common/common_functions').getElementById;
+const toTitleCase    = require('../../../_common/string_util').toTitleCase;
 
 const ResetPassword = (() => {
     let form_reset_pw_id,
@@ -23,7 +23,7 @@ const ResetPassword = (() => {
             social_signup_identifier = toTitleCase(social_identity_provider);
             return status.includes('social_signup');
         }
-        throw new Error('get_account_status is undefined');
+        return false;
     };
 
     const responseHandler = (response) => {
@@ -63,7 +63,7 @@ const ResetPassword = (() => {
         } else {
             Dialog.alert({
                 id               : 'sent_email_success_dialog',
-                localized_message: localize('Your Deriv account is unlinked from [_1]. Use [_2]your email and password for future log in.', [social_signup_identifier, '<br />']),
+                localized_message: localize('Your Binary account is unlinked from [_1]. Use [_2]your email and password for future log in.', [social_signup_identifier, '<br />']),
                 localized_title  : localize('Success!'),
                 ok_text          : localize('Got it'),
                 onConfirm        : () => Login.redirectToLogin(),

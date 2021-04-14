@@ -294,7 +294,7 @@ const Metatrader = () => (
                             <div id='view_3' className='gr-row invisible'>
                                 <div className='container gr-12'>
                                     <p id='trading_password_new_user' className='notice-msg invisible'>
-                                        {it.L('Set a trading password. Use this to log in and trade on MT5 and Deriv X. ')}
+                                        {it.L('Set a trading password. Use this to log in and trade on MT5.')}
                                     </p>
                                     <p id='trading_password_existing_user' className='notice-msg invisible'>
                                         {it.L('Please enter your trading password to create an account. If you\'ve forgotten your password, click [_1]Reset password[_2]', '<strong>', '</strong>')}
@@ -357,7 +357,7 @@ const Metatrader = () => (
                                         {it.L('You can now create one secure password to log into all your MT5 accounts.')}
                                     </p>
                                     <p className='notice-msg font-n invisible' id='new_client_message'>
-                                        {it.L('Your MT5 password is now same as your trading password. To reset, please go to Settings to change your password. ')}
+                                        {it.L('Your MT5 password is now same as your trading password. To reset, please go to Settings to change your password.')}
                                     </p>
                                     <a
                                         href={it.url_for('user/security/change_passwordws')}
