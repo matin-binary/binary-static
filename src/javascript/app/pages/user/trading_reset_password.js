@@ -1,6 +1,6 @@
-const FormManager = require('../../common/form_manager');
 const BinaryPjax  = require('../../base/binary_pjax');
 const Dialog      = require('../../common/attach_dom/dialog');
+const FormManager = require('../../common/form_manager');
 const localize    = require('../../../_common/localize').localize;
 const Url         = require('../../../_common/url');
 
@@ -17,7 +17,7 @@ const TradingResetPassword = (() => {
         } else {
             Dialog.alert({
                 id               : 'success_reset_trading_pw_dialog',
-                localized_message: localize('You have a new trading password. Use this to log in to MetaTrader 5 and Deriv X.'),
+                localized_message: localize('You have a new trading password. Use this to log in to MetaTrader 5.'),
                 localized_title  : localize('Trading password'),
                 ok_text          : localize('Done'),
                 onConfirm        : () => { BinaryPjax.load(Url.urlFor('trading')); },

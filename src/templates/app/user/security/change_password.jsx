@@ -16,7 +16,6 @@ const AppsList = ({ platform }) => {
     return (
         <div className='app-list'>
             <span>MT5</span>
-            <span>Deriv X</span>
         </div>
     );
 };
@@ -95,7 +94,7 @@ const ChangePassword = () => (
             </form>
             <form className='form gr-padding-10' id='frm_trading_password'>
                 <Fieldset legend={it.L('Trading Password')}>
-                    <p className='hint'>{it.L('Use this to log in and trade with MT5 and Deriv X')}</p>
+                    <p className='hint'>{it.L('Use this to log in and trade with MT5.')}</p>
                     <div className='gr-gutter gr-padding-20'>
                         <div className='gr-row clear' id='trading_password_content_wrapper'>
                             <div id='trading_password_container' className='row-inner gr-7 gr-12-p gr-12-m align-self-center invisible'>

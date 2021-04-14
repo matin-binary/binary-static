@@ -1,13 +1,13 @@
 const Client         = require('../../../base/client');
 const BinarySocket   = require('../../../base/socket');
-const FormManager    = require('../../../common/form_manager');
 const Dialog         = require('../../../common/attach_dom/dialog');
-const toTitleCase    = require('../../../../_common/string_util').toTitleCase;
+const FormManager    = require('../../../common/form_manager');
+const Password       = require('../../../../_common/check_password');
+const getElementById = require('../../../../_common/common_functions').getElementById;
 const localize       = require('../../../../_common/localize').localize;
 const State          = require('../../../../_common/storage').State;
-const getElementById = require('../../../../_common/common_functions').getElementById;
+const toTitleCase    = require('../../../../_common/string_util').toTitleCase;
 const Url            = require('../../../../_common/url');
-const Password       = require('../../../../_common/check_password');
 
 const ChangePassword = (() => {
     let $change_password_loading,
@@ -47,7 +47,7 @@ const ChangePassword = (() => {
         if (Array.isArray(status)) {
             return status.includes('trading_password_required');
         }
-        throw new Error('get_account_status is undefined');
+        return false;
     };
 
     const hasSocialSignup = () => {
@@ -56,11 +56,11 @@ const ChangePassword = (() => {
             social_signup_identifier = toTitleCase(social_identity_provider);
             return status.includes('social_signup');
         }
-        throw new Error('get_account_status is undefined');
+        return false;
     };
 
     const init = () => {
-        $binary_password_container.removeClass('invisible');
+        $binary_password_container.setVisibility(1);
 
         // Handle change binary password
         FormManager.init(binary_form_id, [
@@ -80,19 +80,14 @@ const ChangePassword = (() => {
     };
 
     const getDialogMessage = (event_type) => {
-        let msg;
         switch (event_type) {
             case 'unlink':
-                msg = localize('Check your Google account email and click the link in the email to proceed.');
-                break;
+                return localize('Check your Google account email and click the link in the email to proceed.');
             case 'trading_password':
-                msg = localize('Please click on the link in the email to reset your trading password.');
-                break;
+                return localize('Please click on the link in the email to reset your trading password.');
             default:
-                msg = localize('Please click on the link in the email to reset your binary password.');
-                break;
+                return localize('Please click on the link in the email to reset your binary password.');
         }
-        return msg;
     };
 
     const onSentEmail = (event_type) => {
@@ -111,7 +106,7 @@ const ChangePassword = (() => {
     };
 
     const initSocialSignup = () => {
-        $social_signup_container.removeClass('invisible');
+        $social_signup_container.setVisibility(1);
         getElementById('linked_social_identifier').innerHTML = localize('Linked with [_1]', social_signups[social_signup_identifier].name);
         getElementById('ic_linked_social_identifier').src = Url.urlForStatic(`images/pages/account_password/${social_signups[social_signup_identifier].icon}.svg`);
 
@@ -129,8 +124,8 @@ const ChangePassword = (() => {
     };
 
     const initTradingPassword = () => {
-        $trading_password_container.removeClass('invisible');
-        $set_trading_password_container.addClass('invisible');
+        $trading_password_container.setVisibility(1);
+        $set_trading_password_container.setVisibility(0);
 
         // Handle change trading password
         FormManager.init(trading_form_id, [
@@ -151,7 +146,7 @@ const ChangePassword = (() => {
     };
 
     const initSetTradingPassword = () => {
-        $set_trading_password_container.removeClass('invisible');
+        $set_trading_password_container.setVisibility(1);
 
         // Handle set trading password
         FormManager.init(trading_form_id, [
@@ -167,10 +162,10 @@ const ChangePassword = (() => {
 
     const changePasswordHandler = (response) => {
         if ('error' in response) {
-            const frm_change_binary_password_error_id = '#frm_change_binary_password_error';
-            $(frm_change_binary_password_error_id).text(response.error.message).setVisibility(1);
+            const $frm_change_binary_password_error = $('#frm_change_binary_password_error');
+            $frm_change_binary_password_error.text(response.error.message).setVisibility(1);
             setTimeout(() => {
-                $(frm_change_binary_password_error_id).setVisibility(0);
+                $frm_change_binary_password_error.setVisibility(0);
             }, 5000);
         } else {
             $msg_success.text(localize('Your binary password has been changed. Please log in again.'));
@@ -183,13 +178,13 @@ const ChangePassword = (() => {
 
     const setTradingPwHandler = (response) => {
         if ('error' in response) {
-            const frm_set_trading_password_error_id = '#frm_set_trading_password_error';
-            $(frm_set_trading_password_error_id).text(response.error.message).setVisibility(1);
+            const $frm_set_trading_password_error = $('#frm_set_trading_password_error');
+            $frm_set_trading_password_error.text(response.error.message).setVisibility(1);
             setTimeout(() => {
-                $(frm_set_trading_password_error_id).setVisibility(0);
+                $frm_set_trading_password_error.setVisibility(0);
             }, 5000);
         } else {
-            $msg_success_trading.text(localize('Your trading password has been set. Please use this to log in to MetaTrader 5 and Deriv X.'));
+            $msg_success_trading.text(localize('Your trading password has been set. Please use this to log in to MetaTrader 5.'));
             $msg_success_trading_container.setVisibility(1);
             $trading_password_container.setVisibility(1);
             $set_trading_password_container.setVisibility(0);
@@ -203,13 +198,13 @@ const ChangePassword = (() => {
 
     const tradingPwHandler = (response) => {
         if ('error' in response) {
-            const frm_change_trading_password_error_id = '#frm_change_trading_password_error';
-            $(frm_change_trading_password_error_id).text(response.error.message).setVisibility(1);
+            const $frm_change_trading_password_error = $('#frm_change_trading_password_error');
+            $frm_change_trading_password_error.text(response.error.message).setVisibility(1);
             setTimeout(() => {
-                $(frm_change_trading_password_error_id).setVisibility(0);
+                $frm_change_trading_password_error.setVisibility(0);
             }, 5000);
         } else {
-            $msg_success_trading.text(localize('Your trading password has been changed. Please use this to log in to MetaTrader 5 and Deriv X.'));
+            $msg_success_trading.text(localize('Your trading password has been changed. Please use this to log in to MetaTrader 5.'));
             $msg_success_trading_container.setVisibility(1);
             $(trading_form_id).trigger('reset');
             Password.removeCheck('#new_trading_password', true);
@@ -235,7 +230,7 @@ const ChangePassword = (() => {
         $msg_success_trading_container  = $('#msg_success_trading_container');
         $msg_success_trading            = $('#msg_success_trading');
         forgot_binary_pw_btn_id         = '#forgot_binary_pw_btn';
-        forgot_trading_pw_btn_id         = '#forgot_trading_pw_btn';
+        forgot_trading_pw_btn_id        = '#forgot_trading_pw_btn';
 
         $change_password_loading.setVisibility(1);
 
