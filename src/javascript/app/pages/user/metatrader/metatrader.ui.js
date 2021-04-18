@@ -607,11 +607,8 @@ const MetaTraderUI = (() => {
 
     const shouldSetTradingPassword = () => {
         const { status } = State.getResponse('get_account_status');
-        if (Array.isArray(status)) {
-            status.includes('trading_password_required');
-        } else {
-            throw new Error('get_account_status is undefined');
-        }
+
+        return Array.isArray(status) ? status.includes('trading_password_required') : false;
     };
 
     const displayStep = (step) => {
