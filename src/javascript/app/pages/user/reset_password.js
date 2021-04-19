@@ -46,7 +46,7 @@ const ResetPassword = (() => {
         } else {
             $msg_reset_password.text(localize('Your password has been successfully reset. Please log into your account using your new password.')).setVisibility(1);
             setTimeout(() => {
-                Login.redirectToLogin();
+                Login.redirectToLogin(true);
             }, 5000);
         }
     };
@@ -66,7 +66,7 @@ const ResetPassword = (() => {
                 localized_message: localize('Your Binary account is unlinked from [_1]. Use [_2]your email and password for future log in.', [social_signup_identifier, '<br />']),
                 localized_title  : localize('Success!'),
                 ok_text          : localize('Got it'),
-                onConfirm        : () => Login.redirectToLogin(),
+                onConfirm        : () => Login.redirectToLogin(true),
             });
         }
     };
