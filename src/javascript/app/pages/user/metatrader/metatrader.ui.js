@@ -937,15 +937,14 @@ const MetaTraderUI = (() => {
      * @returns {jQuery}
      */
     const  getActionButton = (action) => {
+        let button_selector = 'button';
         if (action === 'new_account') {
             if (shouldSetTradingPassword()) {
-                return actions_info[action].$form.find('#new_user_btn_submit_new_account');
+                button_selector = '#new_user_btn_submit_new_account';
             }
-            return actions_info[action].$form.find('#existing_user_btn_submit_new_account');
-
+             button_selector = '#existing_user_btn_submit_new_account';
         }
-        return actions_info[action].$form.find('button');
-
+        return actions_info[action].$form.find(button_selector);
     };
 
     const disableButton = (action) => {
