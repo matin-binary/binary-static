@@ -748,13 +748,16 @@ const MetaTraderUI = (() => {
                 $(e.target).not(':input[disabled]').attr('checked', 'checked');
             }
 
+            const new_user_submit_button = $form.find('#new_user_btn_submit_new_account');
+            const existing_user_submit_button = $form.find('#existing_user_btn_submit_new_account');
+            
             // Disable/enable submit button based on whether any of the checkboxes is checked.
             if ($form.find('#ddl_trade_server input[checked]').length > 0) {
-                $form.find('#new_user_btn_submit_new_account').removeAttr('disabled');
-                $form.find('#existing_user_btn_submit_new_account').removeAttr('disabled');
+                new_user_submit_button.removeAttr('disabled');
+                existing_user_submit_button.removeAttr('disabled');
             } else {
-                $form.find('#new_user_btn_submit_new_account').attr('disabled', true);
-                $form.find('#existing_user_btn_submit_new_account').attr('disabled', true);
+                new_user_submit_button.attr('disabled', true);
+                existing_user_submit_button.attr('disabled', true);
             }
         });
 
