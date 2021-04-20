@@ -13,7 +13,7 @@ const TradingResetPassword = (() => {
             getElementById('msg_reset_password').setVisibility(0);
             const err_msg = response.error.message;
             $form_error.find('a').setVisibility(0);
-            getElementById('form_error_msg').text(err_msg);
+            getElementById('form_error_msg').innerHTML = err_msg;
             $form_error.setVisibility(1);
         } else {
             Dialog.alert({
