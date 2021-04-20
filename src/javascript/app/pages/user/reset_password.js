@@ -111,8 +111,7 @@ const ResetPassword = (() => {
         $form_error_msg            = $('#form_error_msg');
 
         BinarySocket.wait('get_account_status').then(() => {
-            const has_social_signup = hasSocialSignup();
-            if (has_social_signup) {
+            if (hasSocialSignup()) {
                 initResetBinaryPw();
             } else {
                 initResetPw();
