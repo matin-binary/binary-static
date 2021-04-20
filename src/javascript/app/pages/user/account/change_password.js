@@ -99,21 +99,26 @@ const ChangePassword = (() => {
     };
 
     const initSocialSignup = () => {
-        $social_signup_container.setVisibility(1);
-        getElementById('linked_social_identifier').innerHTML = localize('Linked with [_1]', social_signups[social_signup_identifier].name);
-        getElementById('ic_linked_social_identifier').src = Url.urlForStatic(`images/pages/account_password/${social_signups[social_signup_identifier].icon}.svg`);
-
-        // Handle unlinking social signup
-        $(social_unlink_btn_id).off('click').on('click', () => {
-            Dialog.confirm({
-                id               : 'unlink_confirmation_dialog',
-                localized_message: localize('You will need to set a password to complete the process.'),
-                localized_title  : localize('Are you sure you want to unlink from [_1]?', social_signup_identifier),
-                cancel_text      : localize('Cancel'),
-                ok_text          : localize('Unlink'),
-                onConfirm        : () => onSentEmail('unlink'),
+        // TODO temporary condition; remove after Apple signup BE implementation is ready
+        if (social_signup_identifier === 'Apple') {
+            getElementById('frm_change_password').setVisibility(0);
+        } else {
+            $social_signup_container.setVisibility(1);
+            getElementById('linked_social_identifier').innerHTML = localize('Linked with [_1]', social_signups[social_signup_identifier].name);
+            getElementById('ic_linked_social_identifier').src = Url.urlForStatic(`images/pages/account_password/${social_signups[social_signup_identifier].icon}.svg`);
+    
+            // Handle unlinking social signup
+            $(social_unlink_btn_id).off('click').on('click', () => {
+                Dialog.confirm({
+                    id               : 'unlink_confirmation_dialog',
+                    localized_message: localize('You will need to set a password to complete the process.'),
+                    localized_title  : localize('Are you sure you want to unlink from [_1]?', social_signup_identifier),
+                    cancel_text      : localize('Cancel'),
+                    ok_text          : localize('Unlink'),
+                    onConfirm        : () => onSentEmail('unlink'),
+                });
             });
-        });
+        }
     };
 
     const initTradingPassword = () => {

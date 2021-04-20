@@ -7,8 +7,8 @@ const Url         = require('../../../_common/url');
 
 const TradingResetPassword = (() => {
     const responseHandler = (response) => {
-        getElementById('container_trading_reset_password').setVisibility(0);
         if (response.error) {
+            getElementById('container_trading_reset_password').setVisibility(0);
             const $form_error = $('#form_error');
             getElementById('msg_reset_password').setVisibility(0);
             const err_msg = response.error.message;
