@@ -2,17 +2,18 @@ const BinaryPjax  = require('../../base/binary_pjax');
 const Dialog      = require('../../common/attach_dom/dialog');
 const FormManager = require('../../common/form_manager');
 const localize    = require('../../../_common/localize').localize;
+const getElementById = require('../../../_common/common_functions').getElementById;
 const Url         = require('../../../_common/url');
 
 const TradingResetPassword = (() => {
     const responseHandler = (response) => {
-        $('#container_trading_reset_password').setVisibility(0);
+        getElementById('container_trading_reset_password').setVisibility(0);
         if (response.error) {
             const $form_error = $('#form_error');
-            $('#msg_reset_password').setVisibility(0);
+            getElementById('msg_reset_password').setVisibility(0);
             const err_msg = response.error.message;
             $form_error.find('a').setVisibility(0);
-            $('#form_error_msg').text(err_msg);
+            getElementById('form_error_msg').text(err_msg);
             $form_error.setVisibility(1);
         } else {
             Dialog.alert({

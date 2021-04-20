@@ -44,19 +44,13 @@ const ChangePassword = (() => {
 
     const shouldSetTradingPassword = () => {
         const { status } = State.getResponse('get_account_status');
-        if (Array.isArray(status)) {
-            return status.includes('trading_password_required');
-        }
-        return false;
+        return Array.isArray(status) && status.includes('trading_password_required');
     };
 
     const hasSocialSignup = () => {
         const { social_identity_provider, status } = State.getResponse('get_account_status');
-        if (Array.isArray(status)) {
-            social_signup_identifier = toTitleCase(social_identity_provider);
-            return status.includes('social_signup');
-        }
-        return false;
+        social_signup_identifier = toTitleCase(social_identity_provider);
+        return Array.isArray(status) && status.includes('social_signup');
     };
 
     const init = () => {
@@ -100,7 +94,6 @@ const ChangePassword = (() => {
                 id               : 'sent_email_dialog',
                 localized_message: getDialogMessage(event_type),
                 localized_title  : localize('We’ve sent you an email'),
-                ok_text          : localize('Okay'),
             });
         });
     };
